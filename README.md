@@ -199,7 +199,7 @@ Some cool stuff is going on in the background here:
 * Even invalid stock symbols are cached in Redis and stored in the internal `$stock_quotes` array so that they will not be looked up using the Yahoo API unnecessarily.
 * `$redis_expire` can be set to zero (`0`) in [`stock_quotes.class.php`](stock_quotes.class.php) to disable caching to Redis entirely.
 * If a stock quote for a stock symbol is found within the `$stock_quotes` array or the Redis cache, it is not re-written to the Redis cache (so it will still expire at `$redis_expire` seconds from when it was _originally_ stored in Redis).
- - This prevents very stale stock quote data from being served by Redis in case a single stock symbol is repeatedly being requested every few seconds (i.e. more often than `$redis_expire`).
+	- This prevents very stale stock quote data from being served by Redis in case a single stock symbol is repeatedly being requested every few seconds (i.e. more often than `$redis_expire`).
 * A handy bash one-liner to monitor stock quotes that are available in Redis along with their TTL:
 
 		watch -n 2 'for x in $(echo "keys *" | redis-cli  | grep stocks_);do echo -n "$x " && echo "ttl $x" | redis-cli;done'
