@@ -13,7 +13,7 @@ class stock_quotes {
 
 	// Set timeout (for Redis and cURL) as well as user agent for HTTP(S) requests to Yahoo Finance SQL API
 	private $timeout = 2;
-	private $user_agent = 'EricOC Stock Class - https://github.com/ericoc/hotbot/blob/master/stock_quotes.class.php';
+	private $user_agent = 'EricOC Stock Quote PHP Library / https://github.com/ericoc/stock-quotes-php-lib/';
 
 	// Create constructor function to connect to Redis
 	function __construct () {
