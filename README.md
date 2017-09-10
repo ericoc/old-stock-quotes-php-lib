@@ -3,7 +3,7 @@
 
 This was primarily a challenge to myself to create a PHP library/class that could look up stock quotes for stock symbols in a really efficient way. I wanted to avoid any unnecessary or extraneous HTTPS requests to whatever API I was using. The script uses [this Yahoo SQL API](https://developer.yahoo.com/yql/console/?q=select%20*%20from%20yahoo.finance.quote%20where%20symbol%20in%20(%22YHOO%22%2C%22AAPL%22%2C%22GOOG%22%2C%22MSFT%22)&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys) (click the `Test` button...)
 
-The `stock_quotes` PHP class within [`stock_quotes.class.php`](stock_quotes.class.php) will only look up stock quotes that it does not already know, does so using a single HTTPS request for multiple stock symbols, and caches the stock quotes within Redis.
+The `stock_quotes` PHP class within [`stock_quotes.class.php`](stock_quotes.class.php) will only look up stock quotes that it does not already know, does so using a single HTTPS request for multiple stock symbols, and caches the stock quotes in Redis.
 
 ## Features
 
