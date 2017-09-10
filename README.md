@@ -204,4 +204,4 @@ Some cool stuff is going on in the background here:
 
 		watch -n 2 'for x in $(echo "keys *" | redis-cli  | grep stocks_);do echo -n "$x " && echo "ttl $x" | redis-cli;done'
 
-	- if you change `$redis_key_prefix` to something other than `stocks_` in [`stock_quotes.class.php`](stock_quotes.class.php), adjust the above bash command appropriately
+	- If you change `$redis_key_prefix` to something other than `stocks_` in [`stock_quotes.class.php`](stock_quotes.class.php), adjust the above bash command appropriately
