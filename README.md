@@ -194,7 +194,7 @@ Some cool stuff is going on in the background here:
 * If [`stock_quotes.php`](stock_quotes.php) was executed twice within `$redis_expire` seconds (before the stock quotes expired in Redis), no requests would be made to Yahoo at all. All of the stock quotes would already be known since they are available in Redis!
 
 
-### Other notes
+### Other Notes
 
 * Even invalid stock symbols are cached in Redis and stored in the internal `$stock_quotes` array so that they will not be looked up using the Yahoo API unnecessarily.
 * `$redis_expire` can be set to zero (`0`) in [`stock_quotes.class.php`](stock_quotes.class.php) to disable caching to Redis entirely.
