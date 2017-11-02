@@ -1,21 +1,41 @@
 
-# Stock Quote PHP Library
+# DEPRECATED
 
-This was primarily a challenge to myself to create a PHP library/class that could look up stock quotes for stock symbols in a really efficient way. I wanted to avoid any unnecessary or extraneous HTTPS requests to whatever API I was using. The script uses [this Yahoo SQL API](https://developer.yahoo.com/yql/console/?q=select%20*%20from%20yahoo.finance.quote%20where%20symbol%20in%20(%22YHOO%22%2C%22AAPL%22%2C%22GOOG%22%2C%22MSFT%22)&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys) (click the `Test` button...)
+## Unfortunately, this library is now deprecated.
 
-The `stock_quotes` PHP class within [`stock_quotes.class.php`](stock_quotes.class.php) will only look up stock quotes that it does not already know, does so using a single HTTPS request for multiple stock symbols, and caches the stock quotes in Redis.
+Yahoo has disabled their YQL API for stock quotes. Currently, Yahoo is returning HTTP status codes of 999 with a message of "`Requested denied`".
 
-## Features
+	"http-status-code": "999"
+	"http-status-message": "Request denied"
 
-* Assuming you have nothing cached in Redis (by prior runs of the class/script for example), all of the stock symbols will be looked up using Yahoo's API and quotes will be retrieved.
-* The stock quotes for each symbol being looked up are stored in the internal `$stock_quotes` array until the `stock_quotes` object is destroyed (like at the end of the script).
-* The stock quotes are also stored ("cached") in Redis and automatically expire after `$redis_expire` seconds which is set in [`stock_quotes.class.php`](stock_quotes.class.php).
-* Every call to the `get_stock_quotes()` method checks that there is not already a stock quote for each symbol within the internal `$stock_quotes` array as well as the Redis cache before hitting the Yahoo API to avoid any possibility of unnecessary HTTPS requests to the API.
-* Furthermore, only a single HTTPS request is made to Yahoo API for each call to the `get_stock_quotes()` method (for any stock symbols which a quote is not known already) since a single HTTPS request can retrieve stock quotes for multiple stock symbols.
+There is very little information as to *why* Yahoo chose to discontinue this API, but there is one note here:
 
-## Example
+[https://forums.yahoo.net/t5/Yahoo-Finance-help/Receiving-Unable-to-process-request-at-this-time-error-999-lt/td-p/365013](https://forums.yahoo.net/t5/Yahoo-Finance-help/Receiving-Unable-to-process-request-at-this-time-error-999-lt/td-p/365013)
 
-Running the [`stock_quotes.php`](stock_quotes.php) demo will return something like the following (albeit with different numbers surely):
+In any case, I had a lot of fun creating this library and learned a bunch. It was also the only time (*so far*!) that I have seriously used Redis in a personal project that I made public.
+
+### It was fun while it lasted!
+
+
+---
+
+# ~~Stock Quote PHP Library~~
+
+~~This was primarily a challenge to myself to create a PHP library/class that could look up stock quotes for stock symbols in a really efficient way. I wanted to avoid any unnecessary or extraneous HTTPS requests to whatever API I was using. The script uses [this Yahoo SQL API](https://developer.yahoo.com/yql/console/?q=select%20*%20from%20yahoo.finance.quote%20where%20symbol%20in%20(%22YHOO%22%2C%22AAPL%22%2C%22GOOG%22%2C%22MSFT%22)&env=store%3A%2F%2Fdatatables.org%2Falltableswithkeys) (click the `Test` button...)~~
+
+~~The `stock_quotes` PHP class within [`stock_quotes.class.php`](stock_quotes.class.php) will only look up stock quotes that it does not already know, does so using a single HTTPS request for multiple stock symbols, and caches the stock quotes in Redis.~~
+
+## ~~Features~~
+
+* ~~Assuming you have nothing cached in Redis (by prior runs of the class/script for example), all of the stock symbols will be looked up using Yahoo's API and quotes will be retrieved.~~
+* ~~The stock quotes for each symbol being looked up are stored in the internal `$stock_quotes` array until the `stock_quotes` object is destroyed (like at the end of the script).~~
+* ~~The stock quotes are also stored ("cached") in Redis and automatically expire after `$redis_expire` seconds which is set in [`stock_quotes.class.php`](stock_quotes.class.php).~~
+* ~~Every call to the `get_stock_quotes()` method checks that there is not already a stock quote for each symbol within the internal `$stock_quotes` array as well as the Redis cache before hitting the Yahoo API to avoid any possibility of unnecessary HTTPS requests to the API.~~
+* ~~Furthermore, only a single HTTPS request is made to Yahoo API for each call to the `get_stock_quotes()` method (for any stock symbols which a quote is not known already) since a single HTTPS request can retrieve stock quotes for multiple stock symbols.~~
+
+## ~~Example~~
+
+~~Running the [`stock_quotes.php`](stock_quotes.php) demo will return something like the following (albeit with different numbers surely):~~
 
 	$ php stock_quotes.php
 	Array
@@ -172,36 +192,36 @@ Running the [`stock_quotes.php`](stock_quotes.php) demo will return something li
 	[SPLK] Splunk Inc. | Change: $-1.24 / Low: $67.12 / High: $68.76
 
 
-### Explanation
+### ~~Explanation~~
 
-Per the output above, each key in the final `$quotes` (and `$quotes2`) array is a stock symbol with the value being an object containing that stock symbols quote.
+~~Per the output above, each key in the final `$quotes` (and `$quotes2`) array is a stock symbol with the value being an object containing that stock symbols quote.~~
 
-Some cool stuff is going on in the background here:
+~~Some cool stuff is going on in the background here:~~
 
-* In the example of [`stock_quotes.php`](stock_quotes.php), assuming Redis is empty, stock quotes are looked up at Yahoo for all of the requested stock symbols in `$quotes`:
-	- INDU
-	- \^IXIC
-	- \^GSPC
-	- AAPL
-	- HPQ
-	- GOOG
-	- NOPE
-	- SNAP
-* However, in the second call to the `get_stock_quotes()` method via `$quotes2`, a quote for GOOG is already known within the internal `$stock_quotes` array so the Yahoo API is only contacted for these stock symbols:
-	- MSFT
-	- YELP
-	- SPLK
-* If [`stock_quotes.php`](stock_quotes.php) was executed twice within `$redis_expire` seconds (before the stock quotes expired in Redis), no requests would be made to Yahoo at all. All of the stock quotes would already be known since they are available in Redis!
+* ~~In the example of [`stock_quotes.php`](stock_quotes.php), assuming Redis is empty, stock quotes are looked up at Yahoo for all of the requested stock symbols in `$quotes`:~~
+	- ~~INDU~~
+	- ~~\^IXIC~~
+	- ~~\^GSPC~~
+	- ~~AAPL~~
+	- ~~HPQ~~
+	- ~~GOOG~~
+	- ~~NOPE~~
+	- ~~SNAP~~
+* ~~However, in the second call to the `get_stock_quotes()` method via `$quotes2`, a quote for GOOG is already known within the internal `$stock_quotes` array so the Yahoo API is only contacted for these stock symbols:~~
+	- ~~MSFT~~
+	- ~~YELP~~
+	- ~~SPLK~~
+* ~~If [`stock_quotes.php`](stock_quotes.php) was executed twice within `$redis_expire` seconds (before the stock quotes expired in Redis), no requests would be made to Yahoo at all. All of the stock quotes would already be known since they are available in Redis!~~
 
 
-### Other Notes
+### ~~Other Notes~~
 
-* Even invalid stock symbols are cached in Redis and stored in the internal `$stock_quotes` array so that they will not be looked up using the Yahoo API unnecessarily.
-* `$redis_expire` can be set to zero (`0`) in [`stock_quotes.class.php`](stock_quotes.class.php) to disable caching to Redis entirely.
-* If a stock quote for a stock symbol is found within the `$stock_quotes` array or the Redis cache, it is not re-written to the Redis cache (so it will still expire at `$redis_expire` seconds from when it was _originally_ stored in Redis).
-	- This prevents very stale stock quote data from being served by Redis in case a single stock symbol is repeatedly being requested every few seconds (i.e. more often than `$redis_expire`).
-* A handy bash one-liner to monitor stock quotes that are available in Redis along with their TTL:
+* ~~Even invalid stock symbols are cached in Redis and stored in the internal `$stock_quotes` array so that they will not be looked up using the Yahoo API unnecessarily.~~
+* ~~`$redis_expire` can be set to zero (`0`) in [`stock_quotes.class.php`](stock_quotes.class.php) to disable caching to Redis entirely.~~
+* ~~If a stock quote for a stock symbol is found within the `$stock_quotes` array or the Redis cache, it is not re-written to the Redis cache (so it will still expire at `$redis_expire` seconds from when it was _originally_ stored in Redis).~~
+	- ~~This prevents very stale stock quote data from being served by Redis in case a single stock symbol is repeatedly being requested every few seconds (i.e. more often than `$redis_expire`).~~
+* ~~A handy bash one-liner to monitor stock quotes that are available in Redis along with their TTL:~~
 
 		watch -n 2 'for x in $(echo "keys *" | redis-cli  | grep stocks_);do echo -n "$x " && echo "ttl $x" | redis-cli;done'
 
-	- If you change `$redis_key_prefix` to something other than `stocks_` in [`stock_quotes.class.php`](stock_quotes.class.php), adjust the above bash command appropriately
+	- ~~If you change `$redis_key_prefix` to something other than `stocks_` in [`stock_quotes.class.php`](stock_quotes.class.php), adjust the above bash command appropriately~~
